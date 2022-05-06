@@ -45,14 +45,9 @@ Relation SortedSparseMatrix::get_relation_at_index(uint32_t index) const {
 }
 
 std::vector<Relation> SortedSparseMatrix::get_all_relations(Owner owner) const {
-    std::vector<Relation> result;
-    auto n_neighbours = get_number_of_relations(owner);
-    result.reserve(n_neighbours);
-    auto start = find_start_of_relations(owner);
-    for (auto i = start; i < start+n_neighbours; ++i) {
-        result.emplace_back(result.emplace_back(relations.at(i)));
-    }
-    return result;
+    auto start_ = relations.begin() + find_start_of_relations(owner);
+    auto end_ = relations.begin() + find_start_of_relations(owner+1);
+    return {start_, end_};
 }
 
 void SortedSparseMatrix::update_boundaries(uint32_t start_index, uint32_t by_how_much) {
