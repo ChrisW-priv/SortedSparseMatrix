@@ -9,10 +9,7 @@ SortedSparseMatrix::SortedSparseMatrix(int N_nodes, int N_relations) {
 
 void SortedSparseMatrix::insert_relation(Owner owner, Relation relation) {
     // if already in relation we don't want to add another relation
-    // case when relation is 0 is an edge case - we init all elements to zero so all relations with 0 would be dropped
-    // this is a bad fix, but it works fine and definitely will not cause problems down the line
-    // alternative is to make possible scope of relations from 1 not zero (but this requires more work)
-    if (is_in_relation(owner, relation) && relation.with_whom != 0) return;
+    if (is_in_relation(owner, relation) && get_number_of_relations(owner) != 0) return;
 
     auto position_to_insert = relations.begin() + find_position_of_relation(owner, relation);
     relations.insert(position_to_insert, relation);
