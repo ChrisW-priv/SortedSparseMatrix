@@ -2,6 +2,7 @@
 #define SORTEDSPARSEMATRIX_H
 
 #include <vector>
+#include <span>
 #include <cstdint>
 #include <iostream>
 
@@ -68,7 +69,7 @@ public:
     [[nodiscard]] uint32_t find_start_of_relations(Owner owner) const;
     [[nodiscard]] uint32_t get_number_of_relations(Owner owner) const ;
     [[nodiscard]] Relation get_relation_at_index(uint32_t index) const;
-    [[nodiscard]] std::vector<Relation> get_all_relations(Owner owner) const;
+    [[nodiscard]] std::span<const Relation> get_all_relations(Owner owner) const;
 
     friend std::ostream& operator<<(std::ostream& stream, const SortedSparseMatrix& obj);
 

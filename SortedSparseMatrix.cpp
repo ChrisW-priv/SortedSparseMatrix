@@ -44,7 +44,7 @@ Relation SortedSparseMatrix::get_relation_at_index(uint32_t index) const {
     return relations.at(index);
 }
 
-std::vector<Relation> SortedSparseMatrix::get_all_relations(Owner owner) const {
+std::span<const Relation> SortedSparseMatrix::get_all_relations(Owner owner) const {
     auto start_ = relations.begin() + find_start_of_relations(owner);
     auto end_ = relations.begin() + find_start_of_relations(owner+1);
     return {start_, end_};
