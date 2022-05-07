@@ -9,7 +9,7 @@ SortedSparseMatrix::SortedSparseMatrix(int N_nodes, int N_relations) {
 
 void SortedSparseMatrix::insert_relation(Owner owner, Relation relation) {
     // if already in relation we don't want to add another relation
-    if (is_in_relation(owner, relation) && get_number_of_relations(owner) != 0) return;
+    if (is_in_relation(owner, relation)) return;
 
     auto position_to_insert = relations.begin() + find_position_of_relation(owner, relation);
     relations.insert(position_to_insert, relation);
@@ -26,7 +26,7 @@ void SortedSparseMatrix::remove_relation(Owner owner, Relation relation) {
 
 bool SortedSparseMatrix::is_in_relation(Owner owner, Relation relation) {
     auto found_element = find_position_of_relation(owner, relation);
-    return get_relation_at_index(found_element) == relation;
+    return get_relation_at_index(found_element) == relation && get_number_of_relations(owner) != 0;
 }
 
 uint32_t SortedSparseMatrix::find_start_of_relations(Owner owner) const  {
