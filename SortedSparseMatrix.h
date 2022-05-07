@@ -9,7 +9,6 @@
 /* Optimised version of Sparse matrix
  * Focused on quick neighbouring nodes access
  * We split relation into owner and the rest of the relation
- * Currently using linear search. Soon to implement working
 */
 
 
