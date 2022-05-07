@@ -56,7 +56,6 @@ class SortedSparseMatrix {
     void update_boundaries(uint32_t start_index, uint32_t by_how_much);
     uint32_t find_position_of_relation(Owner owner, Relation relation);
     uint32_t binary_search_in_relations(Relation relation, uint32_t low, uint32_t high);
-    uint32_t linear_search_in_relations(Relation relation, uint32_t low, uint32_t high);
 public:
     SortedSparseMatrix()=default;
     SortedSparseMatrix(int N_nodes, int N_relations);

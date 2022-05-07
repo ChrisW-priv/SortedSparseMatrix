@@ -90,16 +90,6 @@ uint32_t SortedSparseMatrix::binary_search_in_relations(Relation relation, uint3
     return mid;
 }
 
-uint32_t SortedSparseMatrix::linear_search_in_relations(Relation relation, uint32_t low, uint32_t high) {
-    uint32_t i = low;
-    while (i < high) {
-        auto element = relations.at(i);
-        if (element >= relation) break;
-        ++i;
-    }
-    return i;
-}
-
 void SortedSparseMatrix::import_relations_from_file(const char *filename) {
     std::ifstream file{filename};
     if (!file) std::cout << "couldn't open file\n";
