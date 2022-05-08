@@ -8,10 +8,13 @@ SortedSparseMatrix::SortedSparseMatrix(int N_nodes, int N_relations) {
 }
 
 void SortedSparseMatrix::insert_relation(Owner owner, Relation relation) {
+    // look for index
+    auto found_element = find_position_of_relation(owner, relation);
     // if already in relation we don't want to add another relation
-    if (is_in_relation(owner, relation)) return;
+    if (get_relation_at_index(found_element) == relation && get_number_of_relations(owner) != 0) return;
 
-    auto position_to_insert = relations.begin() + find_position_of_relation(owner, relation);
+    // if all good, insert into position
+    auto position_to_insert = relations.begin() + found_element;
     relations.insert(position_to_insert, relation);
     update_boundaries(owner.who, 1);
 }
