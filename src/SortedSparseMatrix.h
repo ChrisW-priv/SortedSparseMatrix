@@ -92,6 +92,8 @@ public:
     /// returns all relations belonging to owner.
     [[nodiscard]] std::span<const Relation> get_all_relations(Owner owner) const;
 
+    [[nodiscard]] uint32_t get_number_of_nodes() const;
+
     /// standard output of SortedSparseMatrix.
     /// Returns stream with information on number of nodes + lists each relation owner has
     friend std::ostream& operator<<(std::ostream& stream, const SortedSparseMatrix& obj);

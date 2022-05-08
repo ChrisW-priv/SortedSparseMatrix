@@ -105,3 +105,7 @@ void SortedSparseMatrix::import_relations_from_file(const char *filename) {
     }
 }
 
+uint32_t SortedSparseMatrix::get_number_of_nodes() const {
+    return starting_positions.size()-1;
+}
+
