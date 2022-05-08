@@ -12,6 +12,7 @@ void SortedSparseMatrix::insert_relation(Owner owner, Relation relation) {
     auto found_element = find_position_of_relation(owner, relation);
     // if already in relation we don't want to add another relation
     if (get_relation_at_index(found_element) == relation && get_number_of_relations(owner) != 0) return;
+    if (owner.who > this->get_number_of_nodes()) increase_number_of_nodes(1); // add node if not enough nodes in matrix
 
     // if all good, insert into position
     auto position_to_insert = relations.begin() + found_element;
@@ -107,5 +108,11 @@ void SortedSparseMatrix::import_relations_from_file(const char *filename) {
 
 inline uint32_t SortedSparseMatrix::get_number_of_nodes() const {
     return starting_positions.size()-1;
+}
+
+void SortedSparseMatrix::increase_number_of_nodes(uint32_t how_much) {
+    auto x = this->get_number_of_nodes();
+    starting_positions.resize(x + how_much);
+    update_boundaries(x, find_start_of_relations(Owner{x}));
 }
 

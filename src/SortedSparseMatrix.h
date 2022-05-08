@@ -66,6 +66,8 @@ class SortedSparseMatrix {
     /// finds where relations of owner begin
     [[nodiscard]] uint32_t find_start_of_relations(Owner owner) const;
 
+    void increase_number_of_nodes(uint32_t how_much);
+
 public:
     /// default constructor. Number of nodes is essential to be set to correct number!!!
     /// If too little nodes code does not resize the private vector!!!
