@@ -57,7 +57,7 @@ void SortedSparseMatrix::update_boundaries(uint32_t start_index, uint32_t by_how
 }
 
 std::ostream &operator<<(std::ostream &stream, const SortedSparseMatrix& obj) {
-    stream<<"Number of Nodes: " << obj.starting_positions.size()-1 << '\n';
+    stream<<"Number of Nodes: " << obj.get_number_of_nodes() << '\n';
     uint32_t owner = 0;
     uint32_t index = 0;
     while (owner < obj.starting_positions.size()-1){
