@@ -27,7 +27,7 @@ void SortedSparseMatrix::remove_relation(Owner owner, Relation relation) {
     update_boundaries(owner.who, -1);
 }
 
-bool SortedSparseMatrix::is_in_relation(Owner owner, Relation relation) {
+bool SortedSparseMatrix::is_in_relation(Owner owner, Relation relation) const {
     auto found_element = find_position_of_relation(owner, relation);
     return get_relation_at_index(found_element) == relation && get_number_of_relations(owner) != 0;
 }
@@ -72,11 +72,11 @@ std::ostream &operator<<(std::ostream &stream, const SortedSparseMatrix& obj) {
     return stream;
 }
 
-uint32_t SortedSparseMatrix::find_position_of_relation(Owner owner, Relation relation) {
+uint32_t SortedSparseMatrix::find_position_of_relation(Owner owner, Relation relation) const {
      return binary_search_in_relations(relation, find_start_of_relations(owner), find_start_of_relations(owner+1));
 }
 
-uint32_t SortedSparseMatrix::binary_search_in_relations(Relation relation, uint32_t low, uint32_t high) {
+uint32_t SortedSparseMatrix::binary_search_in_relations(Relation relation, uint32_t low, uint32_t high) const {
     high++;
     uint32_t mid=low;
     while (low != high) {
