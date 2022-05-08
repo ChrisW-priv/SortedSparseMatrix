@@ -27,20 +27,20 @@ void SortedSparseMatrix::remove_relation(Owner owner, Relation relation) {
     update_boundaries(owner.who, -1);
 }
 
-bool SortedSparseMatrix::is_in_relation(Owner owner, Relation relation) const {
+inline bool SortedSparseMatrix::is_in_relation(Owner owner, Relation relation) const {
     auto found_element = find_position_of_relation(owner, relation);
     return get_relation_at_index(found_element) == relation && get_number_of_relations(owner) != 0;
 }
 
-uint32_t SortedSparseMatrix::find_start_of_relations(Owner owner) const  {
+inline uint32_t SortedSparseMatrix::find_start_of_relations(Owner owner) const  {
     return starting_positions.at(owner.who);
 }
 
-uint32_t SortedSparseMatrix::get_number_of_relations(Owner owner) const {
+inline uint32_t SortedSparseMatrix::get_number_of_relations(Owner owner) const {
     return find_start_of_relations(owner+1) - find_start_of_relations(owner);
 }
 
-Relation SortedSparseMatrix::get_relation_at_index(uint32_t index) const {
+inline Relation SortedSparseMatrix::get_relation_at_index(uint32_t index) const {
     return relations.at(index);
 }
 
@@ -50,7 +50,7 @@ std::span<const Relation> SortedSparseMatrix::get_all_relations(Owner owner) con
     return {start_, end_};
 }
 
-void SortedSparseMatrix::update_boundaries(uint32_t start_index, uint32_t by_how_much) {
+inline void SortedSparseMatrix::update_boundaries(uint32_t start_index, uint32_t by_how_much) {
     for (auto i = start_index+1; i < starting_positions.size(); ++i) {
         starting_positions[i] += by_how_much;
     }
@@ -72,11 +72,11 @@ std::ostream &operator<<(std::ostream &stream, const SortedSparseMatrix& obj) {
     return stream;
 }
 
-uint32_t SortedSparseMatrix::find_position_of_relation(Owner owner, Relation relation) const {
+inline uint32_t SortedSparseMatrix::find_position_of_relation(Owner owner, Relation relation) const {
      return binary_search_in_relations(relation, find_start_of_relations(owner), find_start_of_relations(owner+1));
 }
 
-uint32_t SortedSparseMatrix::binary_search_in_relations(Relation relation, uint32_t low, uint32_t high) const {
+inline uint32_t SortedSparseMatrix::binary_search_in_relations(Relation relation, uint32_t low, uint32_t high) const {
     high++;
     uint32_t mid=low;
     while (low != high) {
@@ -105,7 +105,7 @@ void SortedSparseMatrix::import_relations_from_file(const char *filename) {
     }
 }
 
-uint32_t SortedSparseMatrix::get_number_of_nodes() const {
+inline uint32_t SortedSparseMatrix::get_number_of_nodes() const {
     return starting_positions.size()-1;
 }
 
