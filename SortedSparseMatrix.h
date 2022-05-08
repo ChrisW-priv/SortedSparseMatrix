@@ -56,10 +56,16 @@ class SortedSparseMatrix {
 
     /// updates the position of boundaries for all owners after index
     void update_boundaries(uint32_t start_index, uint32_t by_how_much);
+
     /// finds where relations of an owner start
     uint32_t find_position_of_relation(Owner owner, Relation relation);
+
     /// binary search: looks for element between low and high indexes. If not found returns where element should be
     uint32_t binary_search_in_relations(Relation relation, uint32_t low, uint32_t high);
+
+    /// finds where relations of owner begin
+    [[nodiscard]] uint32_t find_start_of_relations(Owner owner) const;
+
 public:
     /// default constructor. Number of nodes is essential to be set to correct number!!!
     /// If too little nodes code does not resize the private vector!!!
@@ -76,9 +82,6 @@ public:
 
     /// checks if owner is in possession of relation
     [[nodiscard]] bool is_in_relation(Owner owner, Relation relation);
-
-    /// finds where relations of owner begin
-    [[nodiscard]] uint32_t find_start_of_relations(Owner owner) const;
 
     /// returns number of relations belonging to owner
     [[nodiscard]] uint32_t get_number_of_relations(Owner owner) const;
