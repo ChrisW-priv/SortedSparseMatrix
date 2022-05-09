@@ -82,9 +82,9 @@ inline uint32_t SortedSparseMatrix::binary_search_in_relations(Relation relation
     while (low != high) {
         mid = (low + high) / 2;
 
-        if (relations.at(mid) == relation)
+        if (relations[mid] == relation)
             return mid;
-        if (relations.at(mid) < relation)
+        if (relations[mid] < relation)
             low = mid+1;
         else
             high = mid-1;
