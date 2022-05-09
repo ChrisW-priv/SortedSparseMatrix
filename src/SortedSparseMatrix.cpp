@@ -40,7 +40,7 @@ inline uint32_t SortedSparseMatrix::get_number_of_relations(Owner owner) const {
     return find_start_of_relations(owner+1) - find_start_of_relations(owner);
 }
 
-inline Relation SortedSparseMatrix::get_relation_at_index(uint32_t index) const {
+inline const Relation& SortedSparseMatrix::get_relation_at_index(uint32_t index) const {
     return relations.at(index);
 }
 

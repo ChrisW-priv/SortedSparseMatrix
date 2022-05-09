@@ -87,7 +87,7 @@ public:
     [[nodiscard]] uint32_t get_number_of_relations(Owner owner) const;
 
     /// returns copy of relation at index
-    [[nodiscard]] Relation get_relation_at_index(uint32_t index) const;
+    [[nodiscard]] const Relation& get_relation_at_index(uint32_t index) const;
 
     /// returns all relations belonging to owner.
     [[nodiscard]] std::span<const Relation> get_all_relations(Owner owner) const;
