@@ -33,7 +33,7 @@ inline bool SortedSparseMatrix::is_in_relation(Owner owner, Relation relation) c
 }
 
 inline uint32_t SortedSparseMatrix::find_start_of_relations(Owner owner) const  {
-    return starting_positions.at(owner.who);
+    return starting_positions[owner.who];
 }
 
 inline uint32_t SortedSparseMatrix::get_number_of_relations(Owner owner) const {
