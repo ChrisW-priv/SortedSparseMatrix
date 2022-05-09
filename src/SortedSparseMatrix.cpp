@@ -41,7 +41,7 @@ inline uint32_t SortedSparseMatrix::get_number_of_relations(Owner owner) const {
 }
 
 inline const Relation& SortedSparseMatrix::get_relation_at_index(uint32_t index) const {
-    return relations.at(index);
+    return relations[index];
 }
 
 std::span<const Relation> SortedSparseMatrix::get_all_relations(Owner owner) const {
