@@ -55,7 +55,7 @@ public:
     [[nodiscard]] const Relation& get_relation_at_index(RelationId_type index) const;
 
     /// returns all relations belonging to owner.
-    [[nodiscard]] std::span<const Relation> get_all_relations(OwnerId_type owner) const;
+    [[nodiscard]] std::span<const Relation> get_all_relations(RelationId_type owner) const;
 
     [[nodiscard]] RelationId_type get_number_of_nodes() const;
 
