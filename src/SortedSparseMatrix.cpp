@@ -2,70 +2,80 @@
 #include <fstream>
 #include "SortedSparseMatrix.h"
 
-SortedSparseMatrix::SortedSparseMatrix(int N_nodes, int N_relations) {
+
+template<typename RelationId_type, typename Relation>
+SortedSparseMatrix<RelationId_type, Relation>::SortedSparseMatrix(size_t N_nodes, size_t N_relations) {
     starting_positions.resize(N_nodes+1);
     relations.resize(N_relations);
 }
 
-void SortedSparseMatrix::insert_relation(Owner owner, Relation relation) {
+template<typename RelationId_type, typename Relation>
+void SortedSparseMatrix<RelationId_type, Relation>::insert_relation(RelationId_type owner, Relation relation) {
     // look for index
     auto found_element = find_position_of_relation(owner, relation);
     // if already in relation we don't want to add another relation
     if (get_relation_at_index(found_element) == relation && get_number_of_relations(owner) != 0) return;
-    if (owner.who > this->get_number_of_nodes()) increase_number_of_nodes(1); // add node if not enough nodes in matrix
 
     // if all good, insert into position
     auto position_to_insert = relations.begin() + found_element;
     relations.insert(position_to_insert, relation);
-    update_boundaries(owner.who, 1);
+    update_boundaries(owner, 1);
 }
 
-void SortedSparseMatrix::remove_relation(Owner owner, Relation relation) {
+template<typename RelationId_type, typename Relation>
+void SortedSparseMatrix<RelationId_type, Relation>::remove_relation(RelationId_type owner, Relation relation) {
     auto element_found = find_position_of_relation(owner, relation);
     if (get_relation_at_index(element_found) != relation) return;
 
     relations.erase(relations.begin() + element_found);
-    update_boundaries(owner.who, -1);
+    update_boundaries(owner, -1);
 }
 
-inline bool SortedSparseMatrix::is_in_relation(Owner owner, Relation relation) const {
+template<typename RelationId_type, typename Relation>
+inline bool SortedSparseMatrix<RelationId_type, Relation>::is_in_relation(RelationId_type owner, Relation relation) const {
     auto found_element = find_position_of_relation(owner, relation);
     return get_relation_at_index(found_element) == relation && get_number_of_relations(owner) != 0;
 }
 
-inline uint32_t SortedSparseMatrix::find_start_of_relations(Owner owner) const  {
-    return starting_positions.at(owner.who);
+template<typename RelationId_type, typename Relation>
+inline RelationId_type SortedSparseMatrix<RelationId_type, Relation>::find_start_of_relations(RelationId_type owner) const  {
+    return starting_positions[owner];
 }
 
-inline uint32_t SortedSparseMatrix::get_number_of_relations(Owner owner) const {
+template<typename RelationId_type, typename Relation>
+inline RelationId_type SortedSparseMatrix<RelationId_type, Relation>::get_number_of_relations(RelationId_type owner) const {
     return find_start_of_relations(owner+1) - find_start_of_relations(owner);
 }
 
-inline Relation SortedSparseMatrix::get_relation_at_index(uint32_t index) const {
-    return relations.at(index);
+template<typename RelationId_type, typename Relation>
+inline const Relation& SortedSparseMatrix<RelationId_type, Relation>::get_relation_at_index(RelationId_type index) const {
+    return relations[index];
 }
 
-std::span<const Relation> SortedSparseMatrix::get_all_relations(Owner owner) const {
+template<typename RelationId_type, typename Relation>
+std::span<const Relation> SortedSparseMatrix<RelationId_type, Relation>::get_all_relations(RelationId_type owner) const {
     auto start_ = relations.begin() + find_start_of_relations(owner);
     auto end_ = relations.begin() + find_start_of_relations(owner+1);
     return {start_, end_};
 }
 
-inline void SortedSparseMatrix::update_boundaries(uint32_t start_index, uint32_t by_how_much) {
+template<typename RelationId_type, typename Relation>
+inline void SortedSparseMatrix<RelationId_type, Relation>::update_boundaries(RelationId_type start_index, RelationId_type by_how_much) {
     for (auto i = start_index+1; i < starting_positions.size(); ++i) {
         starting_positions[i] += by_how_much;
     }
 }
 
-std::ostream &operator<<(std::ostream &stream, const SortedSparseMatrix& obj) {
+template<typename RelationId_type, typename Relation>
+std::ostream &operator<<(std::ostream &stream, const SortedSparseMatrix<RelationId_type, Relation>& obj) {
     stream<<"Number of Nodes: " << obj.get_number_of_nodes() << '\n';
-    uint32_t owner = 0;
-    uint32_t index = 0;
+    RelationId_type owner = 0;
+    RelationId_type index = 0;
     while (owner < obj.starting_positions.size()-1){
         std::cout << "Neighbours of node: " << owner << ":\n";
-        auto N_relations = obj.get_number_of_relations(Owner{owner});
+        auto N_relations = obj.get_number_of_relations(owner);
         for (int i = 0; i < N_relations; ++i) {
-            std::cout << obj.get_relation_at_index(index).with_whom << '\n';
+            std::cout << obj.get_relation_at_index(index) << '\n';
             ++index;
         }
         ++owner;
@@ -73,19 +83,21 @@ std::ostream &operator<<(std::ostream &stream, const SortedSparseMatrix& obj) {
     return stream;
 }
 
-inline uint32_t SortedSparseMatrix::find_position_of_relation(Owner owner, Relation relation) const {
+template<typename RelationId_type, typename Relation>
+inline RelationId_type SortedSparseMatrix<RelationId_type, Relation>::find_position_of_relation(RelationId_type owner, Relation relation) const {
      return binary_search_in_relations(relation, find_start_of_relations(owner), find_start_of_relations(owner+1));
 }
 
-inline uint32_t SortedSparseMatrix::binary_search_in_relations(Relation relation, uint32_t low, uint32_t high) const {
+template<typename RelationId_type, typename Relation>
+inline RelationId_type SortedSparseMatrix<RelationId_type, Relation>::binary_search_in_relations(Relation relation, RelationId_type low, RelationId_type high) const {
     high++;
-    uint32_t mid=low;
+    RelationId_type mid=low;
     while (low != high) {
         mid = (low + high) / 2;
 
-        if (relations.at(mid) == relation)
+        if (relations[mid] == relation)
             return mid;
-        if (relations.at(mid) < relation)
+        if (relations[mid] < relation)
             low = mid+1;
         else
             high = mid-1;
@@ -94,25 +106,20 @@ inline uint32_t SortedSparseMatrix::binary_search_in_relations(Relation relation
     return mid;
 }
 
-void SortedSparseMatrix::import_relations_from_file(const char *filename) {
+template<typename RelationId_type, typename Relation>
+void SortedSparseMatrix<RelationId_type, Relation>::import_relations_from_file(const char *filename) {
     std::ifstream file{filename};
     if (!file) std::cout << "couldn't open file\n";
 
-    uint32_t owner, relation;
+    RelationId_type owner, relation;
     while (file){
         file >> owner;
         file >> relation;
-        this->insert_relation(Owner{owner}, Relation{relation});
+        this->insert_relation(owner, Relation{relation});
     }
 }
 
-inline uint32_t SortedSparseMatrix::get_number_of_nodes() const {
+template<typename RelationId_type, typename Relation>
+inline RelationId_type SortedSparseMatrix<RelationId_type, Relation>::get_number_of_nodes() const {
     return starting_positions.size()-1;
 }
-
-void SortedSparseMatrix::increase_number_of_nodes(uint32_t how_much) {
-    auto x = this->get_number_of_nodes();
-    starting_positions.resize(x + how_much);
-    update_boundaries(x, find_start_of_relations(Owner{x}));
-}
-
