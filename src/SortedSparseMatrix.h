@@ -12,7 +12,7 @@
 */
 
 
-template<typename RelationId_type=uint32_t , typename Relation=uint32_t>
+template<typename RelationId_type=uint32_t , typename Relation=uint16_t>
 class SortedSparseMatrix {
     /// vector indicating the position where relations of an owner start
     std::vector<RelationId_type> starting_positions;
@@ -30,8 +30,6 @@ class SortedSparseMatrix {
 
     /// finds where relations of owner begin
     [[nodiscard]] RelationId_type find_start_of_relations(RelationId_type owner) const;
-
-    void increase_number_of_nodes(uint32_t how_much);
 
 public:
     /// default constructor. Number of nodes is essential to be set to correct number!!!
