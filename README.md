@@ -31,9 +31,15 @@ for (auto n: neighbours){
 }
 ```
 
+### Template arguments clarification:
+Relation is a piece of data that holds "with-whom" information. 
+Default is uint16_t but if you have more than 65500 nodes then use greater one.  
+RelationId_type is a type that is specified for internal use of indexing the relations.
+Default is uint32_t but use smaller one if needed
+
 ## Custom relations:
 SortedSparseMatrix class is a template class which means that you can specify your own type of relation.  
-Default relationship type is "who - with whom".  
+Default relationship type is "who - with whom", so uint32_t type is used.  
 However, you can create a new relationship class.
 ### Requirements of the new class:
 1. operator==
