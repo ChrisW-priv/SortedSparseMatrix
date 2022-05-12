@@ -36,7 +36,7 @@ class SortedSparseMatrix {
 public:
     /// default constructor. Number of nodes is essential to be set to correct number!!!
     /// If too little nodes code does not resize the private vector!!!
-    SortedSparseMatrix(size_t N_nodes, size_t N_relations);
+    explicit SortedSparseMatrix(size_t N_nodes=10, size_t N_relations=100);
 
     /// imports relations from file specified. Format of file should be "{owner} {relation}" separated by new line
     void import_relations_from_file(const char * filename);
