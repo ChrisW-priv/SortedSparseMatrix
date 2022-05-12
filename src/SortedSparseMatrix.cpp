@@ -14,7 +14,7 @@ void SortedSparseMatrix<Relation, RelationId_type>::insert_relation(RelationId_t
     // look for index
     auto found_element = find_position_of_relation(owner, relation);
     // if already in relation we don't want to add another relation
-    if (get_relation_at_index(found_element) == relation && get_number_of_relations(owner) != 0) return;
+    if (get_relation_at_index(found_element) == relation && get_number_of_relations(owner) != 0) throw std::invalid_argument("nodes already in relation");
 
     // if all good, insert into position
     auto position_to_insert = relations.begin() + found_element;
@@ -25,7 +25,7 @@ void SortedSparseMatrix<Relation, RelationId_type>::insert_relation(RelationId_t
 template<typename Relation, typename RelationId_type>
 void SortedSparseMatrix<Relation, RelationId_type>::remove_relation(RelationId_type owner, Relation relation) {
     auto element_found = find_position_of_relation(owner, relation);
-    if (get_relation_at_index(element_found) != relation) return;
+    if (get_relation_at_index(element_found) != relation) throw std::invalid_argument("relation found doesn't matched specified");
 
     relations.erase(relations.begin() + element_found);
     update_boundaries(owner, -1);
