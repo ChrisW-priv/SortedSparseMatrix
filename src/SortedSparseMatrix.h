@@ -12,7 +12,7 @@
 */
 
 
-template<typename RelationId_type=uint32_t , typename Relation=uint16_t>
+template<typename Relation=uint16_t, typename RelationId_type=uint32_t>
 class SortedSparseMatrix {
     /// vector indicating the position where relations of an owner start
     std::vector<RelationId_type> starting_positions;
