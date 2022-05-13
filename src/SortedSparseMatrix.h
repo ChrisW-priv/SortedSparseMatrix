@@ -60,7 +60,7 @@ public:
 
     /// standard output of SortedSparseMatrix.
     /// Returns stream with information on number of nodes + lists each relation owner has
-    friend std::ostream& operator<<(std::ostream& stream, const SortedSparseMatrix& obj);
+    friend std::ostream& operator<<(std::ostream& stream, const SortedSparseMatrix<Relation, RelationId_type>& obj);
 };
 
 #endif //SORTEDSPARSEMATRIX_H

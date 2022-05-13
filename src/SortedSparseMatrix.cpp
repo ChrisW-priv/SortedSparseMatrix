@@ -53,7 +53,7 @@ inline const Relation& SortedSparseMatrix<Relation, RelationId_type>::get_relati
 }
 
 template<typename Relation, typename RelationId_type>
-std::span<const RelationId_type> SortedSparseMatrix<Relation, RelationId_type>::get_all_relations(RelationId_type owner) const {
+std::span<const Relation> SortedSparseMatrix<Relation, RelationId_type>::get_all_relations(RelationId_type owner) const {
     auto start_ = relations.begin() + find_start_of_relations(owner);
     auto end_ = relations.begin() + find_start_of_relations(owner+1);
     return {start_, end_};
