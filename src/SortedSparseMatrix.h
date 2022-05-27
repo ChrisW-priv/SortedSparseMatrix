@@ -36,7 +36,7 @@ class SortedSparseMatrix {
     /// binary search: looks for element between low and high indexes. If not found returns where element should be
     [[nodiscard]] RelationId_type binary_search_in_relations(Relation relation, RelationId_type low, RelationId_type high) const{
         high++;
-        Relation mid=low;
+        RelationId_type mid=low;
         while (low != high) {
             mid = (low + high) / 2;
 
