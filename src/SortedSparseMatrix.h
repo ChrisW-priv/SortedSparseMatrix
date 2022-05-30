@@ -73,12 +73,42 @@ public:
         std::ifstream file{filename};
         if (!file) std::cout << "couldn't open file\n";
 
-        Relation owner, relation;
+        Relation relation;
+        RelationId_type owner;
         while (file){
             file >> owner;
             file >> relation;
             this->insert_relation(owner, Relation{relation});
         }
+    }
+
+    /// imports relations from file specified. Format of file should be "{owner} {relation}" separated by new line. \n
+    /// relations have to be sorted by owner and relation!!
+    void import_sorted_relations_from_file(const char * filename){
+        std::ifstream file{filename};
+        if (!file) std::cout << "couldn't open file\n";
+
+        Relation relation;
+        RelationId_type owner, last_owner;
+
+        // import first relation
+        file >> last_owner;
+        file >> relation;
+        this->insert_relation(last_owner, Relation{relation});
+        RelationId_type row = 1, last_row = 1;
+
+        while (file){
+            file >> owner;
+            file >> relation;
+            if (owner != last_owner){
+                update_boundaries(last_owner, row-last_row);
+                last_owner = owner;
+                last_row = row;
+            }
+            relations.insert(relations.begin() + row, relation);
+            ++row;
+        }
+        update_boundaries(last_owner, row-last_row);
     }
 
     /// inserts relation and updates the boundaries vector
